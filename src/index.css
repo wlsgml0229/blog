@@ -16,11 +16,17 @@ code {
 header {
   display: flex;
   justify-content: space-between;
-  flex-direction: row-reverse;
+  /*flex-direction: row-reverse;*/
   border-bottom: 1px solid #f2f2f2;
   padding: 10px 40px;
   min-height: 40px;
   align-items: center;
+}
+
+header .header__logo {
+  color: black;
+  font-weight: 600;
+  font-size: 18px;
 }
 
 header a {
@@ -70,8 +76,8 @@ footer a:focus, footer a:hover {
   color: black;
   font-weight: 600;
 }
-/* Post List */
-.post__list {
+/* post List , post detail*/
+.post__list, .post__detail {
   min-height: 90vh;
   padding: 20px;
   max-width: 680px;
@@ -136,4 +142,25 @@ footer a:focus, footer a:hover {
 .post__edit:hover,
 .post__edit:focus {
   color: black;
+}
+
+/* post detail */
+.post__detail .post__title {
+  font-size: 36px;
+  line-height: 40px;
+}
+
+.post__detail .post__utils-box {
+  padding: 10px 0;
+  border-top: 1px solid #f2f2f2;
+  border-bottom: 1px solid #f2f2f2;
+  flex-direction: row;
+}
+
+.post__detail .post__profile-box {
+  padding: 10px 0;
+}
+
+.post__detail .post__text {
+  padding: 20px 0;
 }

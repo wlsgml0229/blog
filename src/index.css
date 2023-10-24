@@ -427,3 +427,24 @@ input:checked + .carousel__slide-container .nav label {
   background-image: linear-gradient(to right, #ed6ea0, #ec8c69, #f7186a , #FBB03B);
   box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
 }
+
+/* Login */
+.form--lg{
+  min-height: 70vh;
+  margin-top: 10vh;
+}
+
+.form__title {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.form__link {
+  margin-left: 10px;
+  text-decoration: none;
+  color: rgba(241, 131, 175, 0.94);
+}
+
+.form__link:hover, .form__link:focus {
+  color: #ed6ea0;
+}

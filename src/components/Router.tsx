@@ -10,10 +10,10 @@ import PostEdit from "pages/posts/edit";
 import Profile from "pages/profile";
 import Login from "pages/login";
 import SignUp from "pages/signup";
-
-export default function Router() {
-  // 사용자 인증여부 추가
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+interface RouterProps {
+  isAuthenticated: Boolean;
+}
+export default function Router({ isAuthenticated }: RouterProps) {
   return (
     <>
       <Routes>

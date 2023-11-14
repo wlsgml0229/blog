@@ -39,6 +39,7 @@ export default function SignupForm() {
         break;
       case "password_confirm":
         errorMessage = validatePassword(value, password);
+        setPasswordConfirm(value);
         break;
       default:
         break;
@@ -93,7 +94,7 @@ export default function SignupForm() {
       <div className="form__block">
         <button
           type="submit"
-          value="회언가입"
+          value="회원가입"
           className="form__btn--submit"
           disabled={error?.length > 0}
         >

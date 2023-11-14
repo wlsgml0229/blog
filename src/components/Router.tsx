@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import React from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "pages/home";
@@ -25,8 +23,6 @@ export default function Router({ isAuthenticated }: RouterProps) {
             <Route path="/posts/new" element={<PostNew />} />
             <Route path="/posts/edit/:id" element={<PostEdit />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
             <Route path="*" element={<Navigate replace to="/" />} />
           </>
         ) : (

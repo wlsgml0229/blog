@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { validateEmail, validateLoginPassword } from "utils/auth";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
@@ -9,6 +9,7 @@ export default function LoginForm() {
   const [error, setError] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {
@@ -35,6 +36,7 @@ export default function LoginForm() {
       const auth = getAuth(app);
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("로그인에 성공했습니다 ✨");
+      navigate("/");
     } catch (err: any) {
       console.log(err);
       toast.error(err?.code);

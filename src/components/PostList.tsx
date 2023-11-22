@@ -5,8 +5,8 @@ import { getDocs } from "firebase/firestore";
 import { db } from "firebaseApp";
 import AuthContext from "../context/AuthContext";
 
-interface PostProps {
-  id: string;
+export interface PostProps {
+  id?: string;
   title: string;
   email: string;
   summary: string;

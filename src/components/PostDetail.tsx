@@ -1,5 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { PostProps } from "./PostList";
+import { db } from "firebaseApp";
+import { doc, getDoc } from "firebase/firestore";
+
 export default function PostDetail() {
+  const [post, setPost] = useState<PostProps | null>(null);
+  const params = useParams();
+  console.log(params?.id);
+  const getPost = async (id: string) => {
+    if (id) {
+      const docRef = doc(db, "posts", id);
+      const docSnap = await getDoc(docRef);
+      setPost({ id: docSnap.id, ...(docSnap.data() as PostProps) });
+    }
+  };
+
+  useEffect(() => {
+    if (params?.id) getPost(params?.id);
+  }, [params?.id]);
   return (
     <>
       <div className="post__detail">

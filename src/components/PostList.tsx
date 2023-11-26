@@ -22,16 +22,16 @@ export default function PostList({ hasNavigation = true }: PostListProps) {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const getPosts = async () => {
     const datas = await getDocs(collection(db, "posts"));
-    console.log(datas);
     datas?.forEach((doc) => {
       const dataObj = { ...doc.data(), id: doc.id };
       setPosts((prev) => [...prev, dataObj as PostProps]);
     });
   };
-  console.log(posts);
+
   useEffect(() => {
     getPosts();
   }, []);
+
   const { user } = useContext(AuthContext);
   return (
     <>
@@ -64,7 +64,7 @@ export default function PostList({ hasNavigation = true }: PostListProps) {
                   <div className="post__date">{post?.createdAt}</div>
                 </div>
                 <div className="post__title">{post?.title}</div>
-                <div className="post__text">{post?.content}</div>
+                <div className="post__text">{post?.summary}</div>
               </Link>
               {post?.email === user?.email && (
                 <div className="post__utils-box">

@@ -41,7 +41,7 @@ export default function PostDetail() {
                 삭제
               </div>
               <Link
-                to={`/posts/edit/${params?.id}`}
+                to={`/posts/edit/${post?.id}`}
                 className="post__edit post__text--pre-wrap"
               >
                 수정

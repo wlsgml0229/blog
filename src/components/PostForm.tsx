@@ -5,6 +5,7 @@ import AuthContext from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { PostProps } from "./PostList";
+import { currentTime } from "../utils/date";
 export default function PostForm() {
   const params = useParams();
   const [post, setPost] = useState<PostProps | null>(null);
@@ -24,7 +25,7 @@ export default function PostForm() {
           title,
           summary,
           content,
-          updatedAt: new Date()?.toLocaleDateString(),
+          updatedAt: currentTime(),
         });
 
         toast?.success("게시글을 수정했습니다.");
@@ -34,7 +35,7 @@ export default function PostForm() {
           title: title,
           summary: summary,
           content: content,
-          createAt: new Date()?.toLocaleDateString(),
+          createdAt: currentTime(),
           email: user?.email,
           uid: user?.uid,
         });

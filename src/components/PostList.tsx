@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { collection, deleteDoc, doc } from "firebase/firestore";
-import { getDocs } from "firebase/firestore";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { collection, deleteDoc, doc, where } from "firebase/firestore";
+import { getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "firebaseApp";
 import AuthContext from "../context/AuthContext";
 import { toast } from "react-toastify";
@@ -18,20 +18,40 @@ export interface PostProps {
 }
 interface PostListProps {
   hasNavigation?: Boolean;
+  defaultTab?: TabType;
 }
 type TabType = "all" | "my";
-export default function PostList({ hasNavigation = true }: PostListProps) {
-  const [activeTab, setActiveTab] = useState<TabType>("all");
+export default function PostList({
+  hasNavigation = true,
+  defaultTab = "all",
+}: PostListProps) {
+  const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
   const [posts, setPosts] = useState<PostProps[]>([]);
 
-  const getPosts = async () => {
-    const datas = await getDocs(collection(db, "posts"));
+  const { user } = useContext(AuthContext);
+
+  const getPosts = useCallback(async () => {
+    console.log(activeTab);
     setPosts([]);
+    const postRef = collection(db, "posts");
+    let postQuery;
+
+    if (activeTab === "my" && user) {
+      postQuery = query(
+        postRef,
+        where("uid", "==", user.uid),
+        orderBy("createdAt", "asc"),
+      );
+    } else {
+      postQuery = query(postRef, orderBy("createdAt", "asc"));
+    }
+
+    const datas = await getDocs(postQuery);
     datas?.forEach((doc) => {
       const dataObj = { ...doc.data(), id: doc.id };
       setPosts((prev) => [...prev, dataObj as PostProps]);
     });
-  };
+  }, [activeTab, user]);
 
   const handleDelete = async (id: string) => {
     const confirm = window.confirm("해당 게시글을 삭제하시겠습니까?");
@@ -45,9 +65,8 @@ export default function PostList({ hasNavigation = true }: PostListProps) {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [getPosts]);
 
-  const { user } = useContext(AuthContext);
   return (
     <>
       {hasNavigation && (

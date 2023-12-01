@@ -15,7 +15,16 @@ export interface PostProps {
   createdAt: string;
   updatedAt?: string;
   uid: string;
+  category?: CategoryType;
 }
+export type CategoryType = "Frontend" | "Backend" | "Web" | "Navtive";
+export const CATEGORIES: CategoryType[] = [
+  "Frontend",
+  "Backend",
+  "Web",
+  "Navtive",
+];
+
 interface PostListProps {
   hasNavigation?: Boolean;
   defaultTab?: TabType;

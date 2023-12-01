@@ -4,14 +4,16 @@ import { db } from "firebaseApp";
 import AuthContext from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { PostProps } from "./PostList";
+import { CategoryType, PostProps } from "./PostList";
 import { currentTime } from "../utils/date";
+
 export default function PostForm() {
   const params = useParams();
   const [post, setPost] = useState<PostProps | null>(null);
   const [title, setTitle] = useState<string>("");
   const [summary, setSummary] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [category, setCategory] = useState<CategoryType>("Frontend");
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -26,16 +28,18 @@ export default function PostForm() {
           summary,
           content,
           updatedAt: currentTime(),
+          category,
         });
 
         toast?.success("게시글을 수정했습니다.");
         navigate(`/posts/${post?.id}`);
       } else {
         await addDoc(collection(db, "posts"), {
-          title: title,
-          summary: summary,
-          content: content,
+          title,
+          summary,
+          content,
           createdAt: currentTime(),
+          category,
           email: user?.email,
           uid: user?.uid,
         });
@@ -48,7 +52,9 @@ export default function PostForm() {
     }
   };
   const onChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) => {
     const {
       target: { name, value },
@@ -63,6 +69,9 @@ export default function PostForm() {
       case "content":
         setContent(value);
         break;
+      case "category":
+        setCategory(value as CategoryType);
+        break;
       default:
         break;
     }
@@ -76,7 +85,9 @@ export default function PostForm() {
   };
 
   useEffect(() => {
-    if (params?.id) getPost(params?.id);
+    if (params?.id) {
+      getPost(params?.id);
+    }
   }, [params?.id]);
 
   useEffect(() => {
@@ -84,6 +95,7 @@ export default function PostForm() {
       setTitle(post?.title);
       setSummary(post?.summary);
       setContent(post?.content);
+      setCategory(post?.category as CategoryType);
     }
   }, [post]);
 
@@ -99,6 +111,17 @@ export default function PostForm() {
           onChange={onChange}
           value={title}
         />
+      </div>
+      <div className="form__block">
+        <label htmlFor="category">카테고리</label>
+        <select
+          name="category"
+          id="category"
+          onChange={onChange}
+          defaultValue={category}
+        >
+          <option value="">카테고리를 선택 해주세요</option>
+        </select>
       </div>
       <div className="form__block">
         <label htmlFor="title">요약</label>

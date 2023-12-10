@@ -178,6 +178,15 @@ footer a:focus, footer a:hover {
   white-space: pre-wrap;
 }
 
+.post__category {
+  color: gray;
+  border: 1px solid lightgray;
+  background-color: #f2f2f2;
+  padding: 0 4px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+
 .post__no-post {
   padding: 24px;
   text-align: center;
@@ -462,6 +471,14 @@ input:checked + .carousel__slide-container .nav label {
 
 .form__error {
   color: #fc3636;
+}
+
+.form select {
+  border: 1px solid #f2f2f2;
+  max-width: 680px;
+  height: 40px;
+  border-radius: 0.3rem;
+  padding: 0 20px;
 }
 
 /** loader */

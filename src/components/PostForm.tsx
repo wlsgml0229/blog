@@ -4,7 +4,7 @@ import { db } from "firebaseApp";
 import AuthContext from "../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { CategoryType, PostProps } from "./PostList";
+import { CATEGORIES, CategoryType, PostProps } from "./PostList";
 import { currentTime } from "../utils/date";
 
 export default function PostForm() {
@@ -121,6 +121,11 @@ export default function PostForm() {
           defaultValue={category}
         >
           <option value="">카테고리를 선택 해주세요</option>
+          {CATEGORIES?.map((category) => (
+            <option value={category} key={category}>
+              {category}
+            </option>
+          ))}
         </select>
       </div>
       <div className="form__block">

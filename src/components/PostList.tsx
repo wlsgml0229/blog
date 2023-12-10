@@ -27,20 +27,21 @@ export const CATEGORIES: CategoryType[] = [
 
 interface PostListProps {
   hasNavigation?: Boolean;
-  defaultTab?: TabType;
+  defaultTab?: TabType | CategoryType;
 }
 type TabType = "all" | "my";
 export default function PostList({
   hasNavigation = true,
   defaultTab = "all",
 }: PostListProps) {
-  const [activeTab, setActiveTab] = useState<TabType>(defaultTab);
+  const [activeTab, setActiveTab] = useState<TabType | CategoryType>(
+    defaultTab,
+  );
   const [posts, setPosts] = useState<PostProps[]>([]);
 
   const { user } = useContext(AuthContext);
 
   const getPosts = useCallback(async () => {
-    console.log(activeTab);
     setPosts([]);
     const postRef = collection(db, "posts");
     let postQuery;
@@ -51,8 +52,15 @@ export default function PostList({
         where("uid", "==", user.uid),
         orderBy("createdAt", "asc"),
       );
-    } else {
+    } else if ("all") {
       postQuery = query(postRef, orderBy("createdAt", "asc"));
+    } else {
+      //카테고리
+      postQuery = query(
+        postRef,
+        where("category", "==", activeTab),
+        orderBy("createdAt", "asc"),
+      );
     }
 
     const datas = await getDocs(postQuery);
@@ -94,12 +102,24 @@ export default function PostList({
           >
             나의글
           </div>
+          {CATEGORIES?.map((category) => (
+            <div
+              key={category}
+              role="presentation"
+              onClick={() => setActiveTab(category)}
+              className={
+                activeTab === category ? "post__navigation--active" : ""
+              }
+            >
+              {category}
+            </div>
+          ))}
         </div>
       )}
       <div className="post__list">
         {posts?.length > 0 ? (
           posts.map((post, idx) => (
-            <div key={idx} className="post__box">
+            <div key={post.id} className="post__box">
               <Link to={`/posts/${post?.id}`}>
                 <div className="post__profile-box">
                   <div className="post__profile" />

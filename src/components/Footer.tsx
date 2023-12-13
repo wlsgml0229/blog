@@ -17,6 +17,7 @@ export default function Footer() {
           <BsSun onClick={context.toggleMode} className="footer__theme-btn" />
         ) : (
           <BsMoonFill
+            color="#ffffff"
             onClick={context.toggleMode}
             className="footer__theme-btn"
           />
